@@ -1,6 +1,11 @@
 pipeline { 
   agent any 
   stages { 
+    stage('Checkout') {
+      steps {
+        git url: 'https://github.com/Cassandra1245/calculatorGSG.git', branch: 'main'
+      }
+    }
     stage('Compile') { 
       steps { 
         sh './gradlew compileJava' 
@@ -9,6 +14,12 @@ pipeline {
     stage('Unit test') { 
       steps { 
         sh './gradlew test' 
+      } 
+    } 
+    stage('Code coverage') { 
+      steps { 
+        sh './gradlew jacocoTestReport' 
+        sh './gradlew jacocoTestCoverageVerification' 
       } 
     } 
   } 
